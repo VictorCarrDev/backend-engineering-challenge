@@ -17,6 +17,9 @@ def read_event(path_of_file: Path) -> List[TranslationEvent]:
     if raw_event is None:
         raise ValueError("Invalid file format")
 
+    # although we could say this is not efficient, as it is adding one extra loop
+    # separating the parsing from the reading give us separation of concerns
+    # which make us easy to modify the parsing and even adding a proper serialization if needed
     return [parse_event(event) for event in raw_event]
 
 
