@@ -1,3 +1,4 @@
+import os
 from typer.testing import CliRunner
 
 from unbabel_cli.main import app
@@ -28,11 +29,29 @@ def test_cli():
         "{'date': '2018-12-26 18:24:00', 'average_delivery_time': 42.5}",
     ]
 
-    result = runner.invoke(app, ["--input-file", "./tests/files/events.json"])
+    output_file = "./tests/files/test-cli-output.jsonl"
+
+    result = runner.invoke(
+        app,
+        [
+            "--input-file",
+            "./tests/files/events.json",
+            "--output-file",
+            output_file,
+        ],
+    )
     assert result.exit_code == 0
 
     for output in expected_output:
         assert output in result.stdout
+
+    assert os.path.exists(output_file)
+
+    with open(output_file, "r") as f:
+        output = f.readlines()
+        assert output == [f"{line}\n" for line in expected_output]
+
+    os.remove(output_file)
 
     result = runner.invoke(app, ["./tests/files/events.json"])
     assert result.exit_code == 2
@@ -41,6 +60,6 @@ def test_cli():
     print(result.stdout)
     assert result.exit_code == 2
     assert (
-        "Invalid value for '--input-file': Path './tests/files/wrongFile.json'"
+        "Invalid value for '--input-file' / '-i': Path './tests/files/wrongFile.json'"
         in result.stdout
     )

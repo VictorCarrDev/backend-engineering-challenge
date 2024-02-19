@@ -4,7 +4,7 @@ Welcome to my repository of the back end challenge. the readme i will divide it 
 
 - How to run, build and test
 - extra notes of the implementation
-- Task Description 
+- Task Description
 
 ## How to run this Repo
 
@@ -14,7 +14,7 @@ This repo utilizes [Poetry](https://python-poetry.org/) to install Poetry please
 
 After installing Poetry just run `poetry install` (Which install the dependencies and set up the cli for local test)
 
-Once it has been installed you can run the CLI by just calling `unbabel-cli --input-file <path-to-file> --window-size <number>` for more info on how to run the CLI just call `unbabel-cli --help`
+Once it has been installed you can run the CLI by just calling `unbabel-cli --input-file <path-to-file> --window-size <number>` (it will write the result in `output.jsonl` but it can be changed with `--output-file`) for more info on how to run the CLI just call `unbabel-cli --help`
 
 (if for any reason that doesn't work you can call the cli by using `poetry run unbabel-cli`)
 
@@ -29,7 +29,7 @@ i have installed pytest, all the test are found in the `./test` directory. to ru
 ### alternative installation
 
 And is for some reason installing poetry does not suit you then the alternative method i can give you is to download directly from pypi.
-https://pypi.org/project/victor-unbabel-test-cli/ i published here so that you could also test it. however the name of the cli application changes and should be called as `unbabel-victor-cli` instead of `unbabel-cli`
+https://pypi.org/project/victor-unbabel-test-cli/ i published here so that you could also test it. however the name of the cli application changes and should be called as `unbabel-victor-cli` instead of `unbabel-cli` (however this version only prints the results into the console and it does not save it in a file as i uploaded before i made the file output changes)
 
 ### Directories:
 
@@ -47,8 +47,10 @@ Hi, well i have work on this quite fast as i was told the sooner i do it the bet
 - I added support for json line and json into the fields read because in the example of the sample json there is a json line file and not a json file
   so i am not quite certain what should be the expected input so i added value for both options which will read the file differently based on the type of file (described by file .json or .jsonl)
 
-- I was thinking of using pandas for the calculation which might be better for production as it can allow to do more calculation more organized
-  to the events list. however due to the requirements i think it was simpler for me to build it manually than just using pandas for it now. but planning on having good scalability i might have go with pandas otherwise
+- At first i though the result only needs to be output into the console, as it is accustom, i later changed to output in a file but i leave the
+  print in console as a feature as well because it was easier for me to see it working without spamming files into my repo
+
+- I was thinking of using pandas for the calculation which might be better for a production as it can allow to do more calculations and it can be better organized to handle the data of the events. however due to the requirements i think it was simpler for me to build it manually than just using pandas for it now. but planning on having good scalability i might have go with pandas otherwise
 
 - I also think that since everything comes organized we could divide the array into chunks and make them process each async which should also optimize way more the code (if the input file are large enough to be relevant) however is an overkill at the moment
 

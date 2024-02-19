@@ -6,7 +6,7 @@ from unbabel_cli.utils.interfaces import TranslationEvent
 
 
 def process_avg_delivery_time(
-    events: List[TranslationEvent], windows_size: int
+    events: List[TranslationEvent], windows_size: int, output_file: str = "output.jsonl"
 ) -> None:
     average_calculator = AverageCalculator(windows_size)
     starting_time = events[0]["timestamp"].replace(second=0, microsecond=0)
@@ -32,19 +32,27 @@ def process_avg_delivery_time(
         if duration_in_minute > 0:
             average_calculator.add_active_value(minute, duration_in_minute)
 
-        display_average_delivery_time(actual_time, average_calculator.get_average())
+        display_average_delivery_time(
+            actual_time, average_calculator.get_average(), output_file
+        )
 
 
-def display_average_delivery_time(date: datetime, average_delivery_time: float) -> None:
-    # Why function just to print?
-    # To separate the logic of the calculation from the logic of the display, which can be useful
-    # for scaling and testing
-    print(
-        {
-            "date": date.strftime("%Y-%m-%d %H:%M:%S"),
-            "average_delivery_time": average_delivery_time,
-        }
-    )
+def display_average_delivery_time(
+    date: datetime, average_delivery_time: float, output_file: str
+) -> None:
+    """
+    This functions writes the average delivery time to a file specified
+    and also print the lines of the file to the console as at first I thought it was
+    only supposed to print to the console and then expanded it to write to a file
+    """
+    event_delivery_time = {
+        "date": date.strftime("%Y-%m-%d %H:%M:%S"),
+        "average_delivery_time": average_delivery_time,
+    }
+
+    print(event_delivery_time)
+    with open(output_file, "a", encoding="utf-8") as file:
+        file.write(str(event_delivery_time) + "\n")
 
 
 def get_difference_in_minutes(

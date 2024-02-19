@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from typing import List
 from unittest.mock import Mock, call, patch
+import os
 
 import pytest
 
@@ -32,20 +33,20 @@ def test_calculate_delivery_time_avg(mock_display):
     process_avg_delivery_time(events, window_size)
 
     expected_calls = [
-        call(datetime(2018, 12, 26, 18, 11), 0),
-        call(datetime(2018, 12, 26, 18, 12), 20),
-        call(datetime(2018, 12, 26, 18, 13), 20),
-        call(datetime(2018, 12, 26, 18, 14), 20),
-        call(datetime(2018, 12, 26, 18, 15), 20),
-        call(datetime(2018, 12, 26, 18, 16), 25.5),
-        call(datetime(2018, 12, 26, 18, 17), 25.5),
-        call(datetime(2018, 12, 26, 18, 18), 25.5),
-        call(datetime(2018, 12, 26, 18, 19), 25.5),
-        call(datetime(2018, 12, 26, 18, 20), 25.5),
-        call(datetime(2018, 12, 26, 18, 21), 25.5),
-        call(datetime(2018, 12, 26, 18, 22), 31.0),
-        call(datetime(2018, 12, 26, 18, 23), 31.0),
-        call(datetime(2018, 12, 26, 18, 24), 42.5),
+        call(datetime(2018, 12, 26, 18, 11), 0, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 12), 20, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 13), 20, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 14), 20, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 15), 20, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 16), 25.5, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 17), 25.5, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 18), 25.5, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 19), 25.5, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 20), 25.5, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 21), 25.5, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 22), 31.0, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 23), 31.0, "output.jsonl"),
+        call(datetime(2018, 12, 26, 18, 24), 42.5, "output.jsonl"),
     ]
 
     mock_display.assert_has_calls(expected_calls, any_order=True)
@@ -55,12 +56,19 @@ def test_display_average_delivery_time(capsys):
     date = datetime(2018, 12, 26, 18, 11)
     average_delivery_time = 20
 
-    display_average_delivery_time(date, average_delivery_time)
+    expected_output = "{'date': '2018-12-26 18:11:00', 'average_delivery_time': 20}\n"
+    output_file = "./tests/files/testing_display_output.jsonl"
+
+    display_average_delivery_time(date, average_delivery_time, output_file)
 
     captured = capsys.readouterr()
-    assert captured.out == (
-        "{'date': '2018-12-26 18:11:00', 'average_delivery_time': 20}\n"
-    )
+    assert captured.out == (expected_output)
+
+    with open(output_file, "r") as f:
+        output = f.readlines()
+        assert output == [expected_output]
+
+    os.remove(output_file)
 
 
 def test_average_calculator():
