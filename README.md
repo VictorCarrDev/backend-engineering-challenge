@@ -14,7 +14,7 @@ This repo utilizes [Poetry](https://python-poetry.org/) to install Poetry please
 
 After installing Poetry just run `poetry install` (Which install the dependencies and set up the cli for local test)
 
-Once it has been installed you can run the CLI by just calling `unbabel-cli --input-file <name-of-file> --window-size <number>` for more info on how to run the CLI just call `unbabel-cli --help`
+Once it has been installed you can run the CLI by just calling `unbabel-cli --input-file <path-to-file> --window-size <number>` for more info on how to run the CLI just call `unbabel-cli --help`
 
 (if for any reason that doesn't work you can call the cli by using `poetry run unbabel-cli`)
 
