@@ -4,46 +4,55 @@ Welcome to my repository of the back end challenge. the readme i will divide it 
 
 - How to run, build and test
 - extra notes of the implementation
+- Task Description 
 
 ## How to run this Repo
+
 ### How to install this repo
 
 This repo utilizes [Poetry](https://python-poetry.org/) to install Poetry please [follow their guide](https://python-poetry.org/docs/#installation)
 
-After having Poetry just run `poetry install`
+After installing Poetry just run `poetry install` (Which install the dependencies and set up the cli for local test)
 
-Once it has been installed you can run the CLI by just calling `unbabel-cli --input-file <name-of-file>` for more info on how to run the CLI just
-call `unbabel-cli --help` (if for any reason that doesn't work you can call the cli by using `poetry run unbabel-cli`)
+Once it has been installed you can run the CLI by just calling `unbabel-cli --input-file <name-of-file> --window-size <number>` for more info on how to run the CLI just call `unbabel-cli --help`
+
+(if for any reason that doesn't work you can call the cli by using `poetry run unbabel-cli`)
 
 ### How to build the application?
 
-Run `poetry build` (only build it if you want to install the package into your python (recommend using pipx for it))
+Run `poetry build` (only build it if you want to install the package with pip or pipx)
 
-### How to test? 
+### How to test?
 
-i have installed pytest, all the test are found in the `./test` directory so to run all the test just run `pytest`
+i have installed pytest, all the test are found in the `./test` directory. to run the test all you need to do is call `pytest` in the terminal
 
 ### alternative installation
 
-if for some reason you don't want to install it that way you can install it by going through pypi https://pypi.org/project/victor-unbabel-test-cli/
-it will run with the name of `unbabel-victor-cli` (i suggest to install it with pipx as i have only tested it that way )
+And is for some reason installing poetry does not suit you then the alternative method i can give you is to download directly from pypi.
+https://pypi.org/project/victor-unbabel-test-cli/ i published here so that you could also test it. however the name of the cli application changes and should be called as `unbabel-victor-cli` instead of `unbabel-cli`
 
+### Directories:
+
+- `utils` contains 3 modules that are the ones that do the operations of the
+- `utils/read_events` the module that reads the input file and parse it
+- `utils/delivery_time` the module that calculate the rolling average based on the time
+- `utils/interfaces` the interfaces of the events
+- `main.py` contains the CLI application which runs the functions of utils inside of it.
+- `tests` contains all the test
 
 ## Notes
 
-Hi, well i have work on this quite fast as i was told the sooner the better. still after i finish i have some after though of the implementation,
-So of course there is a lot of room for improvement but i think i convered all the basics of the requirements.
+Hi, well i have work on this quite fast as i was told the sooner i do it the better. still after i finish i have some after though of the implementation, So of course there is a lot of room for improvement but i think i covered all the basics of the requirements. however there are a few things i want to mention which are:
 
-+ I added support for json line and json into the fiels readed because in the example of the sample json there is a json line file and not a json file
-so i am not quite certain what should be the expected input so i added value for both options which will read the file differently based on the type of file (described by file .json or .jsonl)
+- I added support for json line and json into the fields read because in the example of the sample json there is a json line file and not a json file
+  so i am not quite certain what should be the expected input so i added value for both options which will read the file differently based on the type of file (described by file .json or .jsonl)
 
-+ I was thinking of using pandas for the calculation which might be better for production as it can allow to do more calculation more organized
-to the events list. however due to the requirements i think it was simpler for me to build it manually than just using pandas for it now. but 
-for a planning of scalation implementation might have been different
+- I was thinking of using pandas for the calculation which might be better for production as it can allow to do more calculation more organized
+  to the events list. however due to the requirements i think it was simpler for me to build it manually than just using pandas for it now. but planning on having good scalability i might have go with pandas otherwise
 
-+ I also think that since everything comes organized we could divide the array into chunks and make them process each async which should also optimize way more the code (if the input file are large enough to be relevant) however is an overkill at the moment
+- I also think that since everything comes organized we could divide the array into chunks and make them process each async which should also optimize way more the code (if the input file are large enough to be relevant) however is an overkill at the moment
 
-## Application Argument:
+## Problem Argument:
 
 Example:
 
